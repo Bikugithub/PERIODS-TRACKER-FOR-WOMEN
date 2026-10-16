@@ -6,6 +6,7 @@ if ('serviceWorker' in navigator) {
 // Elements
 const calendarGrid = document.getElementById("calendar-grid"), currentMonthText = document.getElementById("current-month");
 const logDrawer = document.getElementById("log-drawer"), settingsModal = document.getElementById("settings-modal"), overlay = document.getElementById("overlay");
+const guidanceModal = document.getElementById("guidance-modal"), helpBtn = document.getElementById("help-btn"), closeGuidanceBtn = document.getElementById("close-guidance-btn");
 const selectedDateText = document.getElementById("selected-date-text"), saveBtn = document.getElementById("save-log-btn");
 const chips = document.querySelectorAll(".chip[data-type]"), themeChips = document.querySelectorAll("#theme-selector .chip");
 const flipCard = document.getElementById("quote-flip-card"), dailyQuote = document.getElementById("daily-quote");
@@ -18,7 +19,8 @@ let currentSelections = { flow: 'none', mood: 'none' };
 // Load Data
 let trackerData = JSON.parse(localStorage.getItem("flowTrackerData")) || {};
 let currentTheme = localStorage.getItem("appTheme") || "default";
-let userName = localStorage.getItem("userName") || "Bonolota";
+let userName = localStorage.getItem("userName") || "My friend👋";
+let hasSeenGuidance = localStorage.getItem("hasSeenGuidance");
 
 // Literary Motivational Quotes
 const motivationDb = {
@@ -60,13 +62,21 @@ const careMeasures = {
 // Initialization
 function initApp() {
     document.documentElement.setAttribute('data-theme', currentTheme);
-    document.getElementById('user-name-input').value = userName === "Bonolota" ? "" : userName; // Keep blank if default
+    document.getElementById('user-name-input').value = userName === "My friend👋" ? "" : userName;
     updateGreeting();
     renderCalendar();
     updateDailyQuote();
+
+    // Show guidance if it's the user's first time
+    if (!hasSeenGuidance) {
+        setTimeout(() => {
+            guidanceModal.classList.remove("hidden");
+            overlay.classList.remove("hidden");
+            localStorage.setItem("hasSeenGuidance", "true");
+        }, 800); 
+    }
 }
 
-// Personalized Greeting
 function updateGreeting() {
     const hour = new Date().getHours();
     let timeText = "Good evening";
@@ -74,6 +84,17 @@ function updateGreeting() {
     else if (hour < 17) timeText = "Good afternoon";
     document.getElementById("greeting-text").textContent = `${timeText}, ${userName} ✨`;
 }
+
+// Guidance Actions
+helpBtn.addEventListener("click", () => {
+    guidanceModal.classList.remove("hidden");
+    overlay.classList.remove("hidden");
+});
+
+closeGuidanceBtn.addEventListener("click", () => {
+    guidanceModal.classList.add("hidden");
+    overlay.classList.add("hidden");
+});
 
 // Settings & Themes
 document.getElementById("settings-btn").addEventListener("click", () => {
@@ -93,12 +114,39 @@ themeChips.forEach(chip => {
 
 document.getElementById("save-settings-btn").addEventListener("click", () => {
     const inputName = document.getElementById("user-name-input").value.trim();
-    userName = inputName || "Bonolota";
+    userName = inputName || "My friend👋";
     localStorage.setItem("userName", userName);
     localStorage.setItem("appTheme", currentTheme);
     updateGreeting();
     settingsModal.classList.add("hidden");
     overlay.classList.add("hidden");
+});
+
+// Download High Quality PNG
+document.getElementById('download-png-btn').addEventListener('click', () => {
+    const appContainer = document.getElementById('app-snapshot-area');
+    const bgColor = getComputedStyle(document.documentElement).getPropertyValue('--bg-color').trim();
+    
+    const wasFlipped = flipCard.classList.contains("flipped");
+    flipCard.classList.add("flipped");
+
+    setTimeout(() => {
+        html2canvas(appContainer, {
+            scale: 3, 
+            backgroundColor: bgColor,
+            useCORS: true,
+            windowWidth: appContainer.scrollWidth,
+            windowHeight: appContainer.scrollHeight
+        }).then(canvas => {
+            const link = document.createElement('a');
+            const dateFmt = new Date().toISOString().split('T')[0];
+            link.download = `Sanctuary-Insights-${dateFmt}.png`;
+            link.href = canvas.toDataURL('image/png', 1.0);
+            link.click();
+            
+            if (!wasFlipped) flipCard.classList.remove("flipped");
+        });
+    }, 400); 
 });
 
 // Backup Data (Export & Import)
@@ -201,20 +249,28 @@ function renderCalendar() {
     for (let i = 0; i < firstDay; i++) calendarGrid.innerHTML += `<div class="day-cell empty"></div>`;
     
     const today = new Date();
+    const midnightToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
     for (let day = 1; day <= days; day++) {
         const cell = document.createElement("div"); cell.className = "day-cell"; cell.textContent = day;
         const dateStr = `${yr}-${String(mo + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
         
+        const cellDateObj = new Date(yr, mo, day);
+
         if (day === today.getDate() && mo === today.getMonth() && yr === today.getFullYear()) cell.classList.add("today");
         if (trackerData[dateStr]?.flow && trackerData[dateStr].flow !== 'none') cell.classList.add("has-flow");
         if (trackerData[dateStr]?.mood && trackerData[dateStr].mood !== 'none') cell.classList.add("has-mood");
 
-        cell.addEventListener("click", () => {
-            selectedDateString = dateStr;
-            selectedDateText.textContent = new Date(dateStr).toLocaleDateString('default', { weekday: 'long', month: 'short', day: 'numeric' });
-            currentSelections = trackerData[dateStr] || { flow: 'none', mood: 'none' };
-            updateChips(); logDrawer.classList.remove("hidden"); overlay.classList.remove("hidden");
-        });
+        if (cellDateObj > midnightToday) {
+            cell.classList.add("disabled-date");
+        } else {
+            cell.addEventListener("click", () => {
+                selectedDateString = dateStr;
+                selectedDateText.textContent = new Date(dateStr).toLocaleDateString('default', { weekday: 'long', month: 'short', day: 'numeric' });
+                currentSelections = trackerData[dateStr] || { flow: 'none', mood: 'none' };
+                updateChips(); logDrawer.classList.remove("hidden"); overlay.classList.remove("hidden");
+            });
+        }
         calendarGrid.appendChild(cell);
     }
     renderInsights();
@@ -239,7 +295,13 @@ saveBtn.addEventListener("click", () => {
 // Navigation & Effects
 document.getElementById("prev-month").addEventListener("click", () => { currentDate.setMonth(currentDate.getMonth() - 1); renderCalendar(); });
 document.getElementById("next-month").addEventListener("click", () => { currentDate.setMonth(currentDate.getMonth() + 1); renderCalendar(); });
-overlay.addEventListener("click", () => { logDrawer.classList.add("hidden"); settingsModal.classList.add("hidden"); overlay.classList.add("hidden"); });
+
+overlay.addEventListener("click", () => { 
+    logDrawer.classList.add("hidden"); 
+    settingsModal.classList.add("hidden"); 
+    guidanceModal.classList.add("hidden");
+    overlay.classList.add("hidden"); 
+});
 
 function spawnFlower() {
     const f = document.createElement("div"); f.className = "glitter-flower";
@@ -252,3 +314,4 @@ function spawnFlower() {
 setInterval(spawnFlower, 3000);
 
 initApp();
+                                     
