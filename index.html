@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Cycle & Mood Sanctuary</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
     <!-- Engine for High-Quality PNG downloads -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
@@ -105,5 +104,50 @@
             <h3>Sanctuary Settings</h3>
             <div class="log-section">
                 <h4>Your Name</h4>
-                <input type="text" id="user-name-input" class="name-input" placeholder="
-                    
+                <input type="text" id="user-name-input" class="name-input" placeholder="Enter your name">
+            </div>
+            <div class="log-section">
+                <h4>Color Theme</h4>
+                <div class="chip-group" id="theme-selector">
+                    <button class="chip" data-theme="default">Rose Quartz</button>
+                    <button class="chip" data-theme="midnight">Midnight Glow</button>
+                    <button class="chip" data-theme="matcha">Matcha Sage</button>
+                    <button class="chip" data-theme="lavender">Lavender Haze</button>
+                    <button class="chip" data-theme="ocean">Ocean Breeze</button>
+                </div>
+            </div>
+            <button id="save-settings-btn" class="primary-btn">Save Settings</button>
+        </div>
+
+        <!-- Logging Drawer -->
+        <div id="log-drawer" class="drawer hidden" data-html2canvas-ignore>
+            <div class="drawer-handle"></div>
+            <h3 id="selected-date-text">Log for today</h3>
+            <div class="log-section">
+                <h4>Flow Intensity</h4>
+                <div class="chip-group">
+                    <button class="chip" data-type="flow" data-val="none">None</button>
+                    <button class="chip" data-type="flow" data-val="light">Light</button>
+                    <button class="chip" data-type="flow" data-val="medium">Medium</button>
+                    <button class="chip" data-type="flow" data-val="heavy">Heavy</button>
+                </div>
+            </div>
+            <div class="log-section">
+                <h4>Mood & Symptoms</h4>
+                <div class="chip-group">
+                    <button class="chip" data-type="mood" data-val="none">Fine</button>
+                    <button class="chip" data-type="mood" data-val="calm">Calm</button>
+                    <button class="chip" data-type="mood" data-val="sensitive">Sensitive</button>
+                    <button class="chip" data-type="mood" data-val="cramps">Cramps</button>
+                    <button class="chip" data-type="mood" data-val="fatigue">Fatigue</button>
+                </div>
+            </div>
+            <button id="save-log-btn" class="primary-btn">Save Log</button>
+        </div>
+
+        <div id="overlay" class="overlay hidden" data-html2canvas-ignore></div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
