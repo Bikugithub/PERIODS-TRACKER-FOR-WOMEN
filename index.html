@@ -6,15 +6,20 @@
     <title>Cycle & Mood Sanctuary</title>
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
+    <!-- Engine for High-Quality PNG downloads -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
+    <!-- Floating flower container -->
     <div id="flower-container" class="flower-container"></div>
 
-    <main class="app-container">
-        <!-- Personalized Sanctuary Header -->
-        <div class="top-nav">
+    <main class="app-container" id="app-snapshot-area">
+        <!-- Personalized Header -->
+        <div class="top-nav" data-html2canvas-ignore>
             <h2 id="greeting-text">Good morning ✨</h2>
             <div class="nav-actions">
+                <button id="help-btn" class="icon-btn" title="How to Use">🧭</button>
+                <button id="download-png-btn" class="icon-btn" title="Save as Image">📸</button>
                 <button id="settings-btn" class="icon-btn" title="Settings">🎨</button>
                 <button id="export-btn" class="icon-btn" title="Backup Data">💾</button>
                 <label for="import-file" class="icon-btn" title="Restore Data" style="cursor:pointer; margin:0;">📂</label>
@@ -24,9 +29,9 @@
 
         <header>
             <div class="month-selector">
-                <button id="prev-month" class="icon-btn">‹</button>
+                <button id="prev-month" class="icon-btn" data-html2canvas-ignore>‹</button>
                 <p id="current-month">October 2026</p>
-                <button id="next-month" class="icon-btn">›</button>
+                <button id="next-month" class="icon-btn" data-html2canvas-ignore>›</button>
             </div>
         </header>
 
@@ -53,7 +58,7 @@
 
         <!-- Visual Insights & Care -->
         <section class="insights-card">
-            <div class="chart-toggle-container">
+            <div class="chart-toggle-container" data-html2canvas-ignore>
                 <div class="chart-toggle">
                     <button id="tab-weekly" class="toggle-btn active">Weekly Flow</button>
                     <button id="tab-monthly" class="toggle-btn">Monthly Mood</button>
@@ -66,60 +71,39 @@
             <div class="advice-box" id="advice-box"></div>
         </section>
 
-        <!-- Settings Modal -->
-        <div id="settings-modal" class="drawer hidden">
+        <!-- Welcome & Guidance Modal -->
+        <div id="guidance-modal" class="drawer hidden" data-html2canvas-ignore>
             <div class="drawer-handle"></div>
-            <h3>Sanctuary Settings</h3>
+            <h3>Welcome to Sanctuary</h3>
+            <p class="guidance-intro">Your personal space to track your cycle, moods, and daily reflections.</p>
             
             <div class="log-section">
-                <h4>Your Name</h4>
-                <input type="text" id="user-name-input" class="name-input" placeholder="Enter your name">
+                <h4>Icon Guide</h4>
+                <ul class="guidance-list">
+                    <li><span class="g-icon">🧭</span> <div><strong>Guide:</strong> Read this help menu.</div></li>
+                    <li><span class="g-icon">📸</span> <div><strong>Snapshot:</strong> Save a beautiful image of your insights.</div></li>
+                    <li><span class="g-icon">🎨</span> <div><strong>Settings:</strong> Change colors and your name.</div></li>
+                    <li><span class="g-icon">💾</span> <div><strong>Backup:</strong> Save your data to your device safely.</div></li>
+                    <li><span class="g-icon">📂</span> <div><strong>Restore:</strong> Load previously backed-up data.</div></li>
+                </ul>
             </div>
 
             <div class="log-section">
-                <h4>Color Theme</h4>
-                <div class="chip-group" id="theme-selector">
-                    <button class="chip" data-theme="default">Rose Quartz</button>
-                    <button class="chip" data-theme="midnight">Midnight Glow</button>
-                    <button class="chip" data-theme="matcha">Matcha Sage</button>
-                    <button class="chip" data-theme="lavender">Lavender Haze</button>
-                    <button class="chip" data-theme="ocean">Ocean Breeze</button>
-                </div>
+                <h4>How to Use</h4>
+                <ul class="guidance-list">
+                    <li><span class="g-icon">🗓️</span> <div><strong>Log Daily:</strong> Tap any current or past date to record your flow and mood.</div></li>
+                    <li><span class="g-icon">✨</span> <div><strong>Affirmation:</strong> Tap the glowing card below the calendar to reveal a personalized quote.</div></li>
+                    <li><span class="g-icon">📊</span> <div><strong>Insights:</strong> View your physical or emotional trends and receive care advice below.</div></li>
+                </ul>
             </div>
-            <button id="save-settings-btn" class="primary-btn">Save Settings</button>
+            <button id="close-guidance-btn" class="primary-btn">Let's Begin</button>
         </div>
 
-        <!-- Logging Drawer -->
-        <div id="log-drawer" class="drawer hidden">
+        <!-- Settings Modal -->
+        <div id="settings-modal" class="drawer hidden" data-html2canvas-ignore>
             <div class="drawer-handle"></div>
-            <h3 id="selected-date-text">Log for today</h3>
-
+            <h3>Sanctuary Settings</h3>
             <div class="log-section">
-                <h4>Flow Intensity</h4>
-                <div class="chip-group">
-                    <button class="chip" data-type="flow" data-val="none">None</button>
-                    <button class="chip" data-type="flow" data-val="light">Light</button>
-                    <button class="chip" data-type="flow" data-val="medium">Medium</button>
-                    <button class="chip" data-type="flow" data-val="heavy">Heavy</button>
-                </div>
-            </div>
-
-            <div class="log-section">
-                <h4>Mood & Symptoms</h4>
-                <div class="chip-group">
-                    <button class="chip" data-type="mood" data-val="none">Fine</button>
-                    <button class="chip" data-type="mood" data-val="calm">Calm</button>
-                    <button class="chip" data-type="mood" data-val="sensitive">Sensitive</button>
-                    <button class="chip" data-type="mood" data-val="cramps">Cramps</button>
-                    <button class="chip" data-type="mood" data-val="fatigue">Fatigue</button>
-                </div>
-            </div>
-            <button id="save-log-btn" class="primary-btn">Save Log</button>
-        </div>
-
-        <div id="overlay" class="overlay hidden"></div>
-    </main>
-
-    <script src="script.js"></script>
-</body>
-</html>
+                <h4>Your Name</h4>
+                <input type="text" id="user-name-input" class="name-input" placeholder="
+                    
