@@ -95,6 +95,9 @@ body { background: var(--bg-color); color: var(--text-main); padding: 16px; touc
 .day-cell.has-mood::after { content: ''; position: absolute; bottom: 4px; width: 5px; height: 5px; border-radius: 50%; background: var(--secondary); }
 .day-cell.has-flow.has-mood::after { background: white; }
 
+/* Disabled Future Dates */
+.day-cell.disabled-date { opacity: 0.3; pointer-events: none; background: transparent !important; border-color: transparent !important; }
+
 /* Graph & Insights */
 .insights-card { background: var(--card-bg); border-radius: 20px; padding: 24px 20px; box-shadow: var(--shadow); border: 1px solid var(--border); }
 .chart-toggle-container { display: flex; justify-content: center; margin-bottom: 24px; }
@@ -127,6 +130,13 @@ body { background: var(--bg-color); color: var(--text-main); padding: 16px; touc
 .name-input:focus { border-color: var(--primary); }
 .primary-btn { width: 100%; padding: 16px; border-radius: 16px; background: var(--primary); color: white; font-size: 1.05rem; font-weight: bold; border: none; cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,0.15); }
 .primary-btn:active { transform: scale(0.96); }
+
+/* Guidance Drawer Styles */
+.guidance-intro { font-size: 0.95rem; color: var(--text-muted); text-align: center; margin-bottom: 24px; line-height: 1.5; }
+.guidance-list { list-style: none; padding: 0; }
+.guidance-list li { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; font-size: 0.95rem; line-height: 1.4; color: var(--text-main); }
+.g-icon { font-size: 1.3rem; line-height: 1; }
+.guidance-list strong { color: var(--primary); display: inline-block; margin-bottom: 2px; }
 
 /* Flowers */
 .flower-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9999; overflow: hidden; }
