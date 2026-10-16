@@ -1,6 +1,5 @@
 /* 5 Dynamic Themes */
 :root {
-    /* Rose Quartz (Default) */
     --bg-color: #fffafb;
     --card-bg: #ffffff;
     --text-main: #4a4a4a;
@@ -65,10 +64,10 @@
 body { background: var(--bg-color); color: var(--text-main); padding: 16px; touch-action: manipulation; transition: background 0.5s ease; }
 .app-container { max-width: 500px; margin: 0 auto; padding-bottom: 40px; }
 
-/* Personalized Header */
-.top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; margin-top: 10px; }
+/* Personalized Header - Fixed for Mobile Wrapping */
+.top-nav { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; margin-bottom: 15px; margin-top: 10px; gap: 10px; }
 #greeting-text { font-size: 1.3rem; font-weight: 700; color: var(--primary); }
-.nav-actions { display: flex; gap: 8px; }
+.nav-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 
 .month-selector { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 20px; }
 .month-selector p { font-size: 1.1rem; color: var(--text-muted); font-weight: 600; min-width: 140px; text-align: center; }
