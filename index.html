@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cycle & Mood Sanctuary</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <div id="flower-container" class="flower-container"></div>
+
+    <main class="app-container">
+        <!-- Personalized Sanctuary Header -->
+        <div class="top-nav">
+            <h2 id="greeting-text">Good morning ✨</h2>
+            <div class="nav-actions">
+                <button id="settings-btn" class="icon-btn" title="Settings">🎨</button>
+                <button id="export-btn" class="icon-btn" title="Backup Data">💾</button>
+                <label for="import-file" class="icon-btn" title="Restore Data" style="cursor:pointer; margin:0;">📂</label>
+                <input type="file" id="import-file" style="display:none;" accept=".json">
+            </div>
+        </div>
+
+        <header>
+            <div class="month-selector">
+                <button id="prev-month" class="icon-btn">‹</button>
+                <p id="current-month">October 2026</p>
+                <button id="next-month" class="icon-btn">›</button>
+            </div>
+        </header>
+
+        <!-- Interactive 3D Flip Card -->
+        <section class="flip-card" id="quote-flip-card">
+            <div class="flip-card-inner" id="quote-inner">
+                <div class="flip-card-front">
+                    <span class="sparkle-icon">✨</span>
+                    <p>Tap for today's reflection</p>
+                </div>
+                <div class="flip-card-back">
+                    <p id="daily-quote" class="quote-text"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Calendar Section -->
+        <section class="calendar-card">
+            <div class="weekdays">
+                <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+            </div>
+            <div id="calendar-grid" class="calendar-grid"></div>
+        </section>
+
+        <!-- Visual Insights & Care -->
+        <section class="insights-card">
+            <div class="chart-toggle-container">
+                <div class="chart-toggle">
+                    <button id="tab-weekly" class="toggle-btn active">Weekly Flow</button>
+                    <button id="tab-monthly" class="toggle-btn">Monthly Mood</button>
+                    <div id="toggle-slider" class="toggle-slider"></div>
+                </div>
+            </div>
+
+            <div class="chart-container" id="weekly-chart"></div>
+            <div class="chart-container hidden-chart" id="monthly-chart"></div>
+            <div class="advice-box" id="advice-box"></div>
+        </section>
+
+        <!-- Settings Modal -->
+        <div id="settings-modal" class="drawer hidden">
+            <div class="drawer-handle"></div>
+            <h3>Sanctuary Settings</h3>
+            
+            <div class="log-section">
+                <h4>Your Name</h4>
+                <input type="text" id="user-name-input" class="name-input" placeholder="Enter your name">
+            </div>
+
+            <div class="log-section">
+                <h4>Color Theme</h4>
+                <div class="chip-group" id="theme-selector">
+                    <button class="chip" data-theme="default">Rose Quartz</button>
+                    <button class="chip" data-theme="midnight">Midnight Glow</button>
+                    <button class="chip" data-theme="matcha">Matcha Sage</button>
+                    <button class="chip" data-theme="lavender">Lavender Haze</button>
+                    <button class="chip" data-theme="ocean">Ocean Breeze</button>
+                </div>
+            </div>
+            <button id="save-settings-btn" class="primary-btn">Save Settings</button>
+        </div>
+
+        <!-- Logging Drawer -->
+        <div id="log-drawer" class="drawer hidden">
+            <div class="drawer-handle"></div>
+            <h3 id="selected-date-text">Log for today</h3>
+
+            <div class="log-section">
+                <h4>Flow Intensity</h4>
+                <div class="chip-group">
+                    <button class="chip" data-type="flow" data-val="none">None</button>
+                    <button class="chip" data-type="flow" data-val="light">Light</button>
+                    <button class="chip" data-type="flow" data-val="medium">Medium</button>
+                    <button class="chip" data-type="flow" data-val="heavy">Heavy</button>
+                </div>
+            </div>
+
+            <div class="log-section">
+                <h4>Mood & Symptoms</h4>
+                <div class="chip-group">
+                    <button class="chip" data-type="mood" data-val="none">Fine</button>
+                    <button class="chip" data-type="mood" data-val="calm">Calm</button>
+                    <button class="chip" data-type="mood" data-val="sensitive">Sensitive</button>
+                    <button class="chip" data-type="mood" data-val="cramps">Cramps</button>
+                    <button class="chip" data-type="mood" data-val="fatigue">Fatigue</button>
+                </div>
+            </div>
+            <button id="save-log-btn" class="primary-btn">Save Log</button>
+        </div>
+
+        <div id="overlay" class="overlay hidden"></div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
